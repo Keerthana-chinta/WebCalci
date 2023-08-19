@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .calculator {
+            background-color: #444;
+            width: 300px;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+            color: white;
+            text-align: center;
+            position: relative;
+        }
+        .calculator h1 {
+            margin-top: 0;
+            font-size: 24px;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            font-size: 28px;
+            margin-bottom: 20px;
+            border: none;
+            background-color: #333;
+            color: white;
+            border-radius: 8px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+            text-align: right;
+        }
+        button {
+            width: 60px;
+            height: 60px;
+            margin: 5px;
+            font-size: 24px;
+            background-color: #666;
+            border: none;
+            color: white;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: background-color 0.3s ease-in-out;
+        }
+        button:hover {
+            background-color: #555;
+        }
+        .row {
+            display: flex;
+            justify-content: space-between;
+        }
+        #equals {
+            background-color: #f39c12;
+            color: black;
+        }
+        #clear {
+            background-color: #e74c3c;
+        }
+
+        .backspace {
+            background-color: #888;
+        }
+    </style>
+</head>
+<body>
+    <div class="calculator">
+        <h1>Calculator</h1>
+        <input type="text" id="display" disabled>
+        <div class="row">
+            <button onclick="appendToDisplay('7')">7</button>
+            <button onclick="appendToDisplay('8')">8</button>
+            <button onclick="appendToDisplay('9')">9</button>
+            <button onclick="appendOperator('/')">/</button>
+        </div>
+        <div class="row">
+            <button onclick="appendToDisplay('4')">4</button>
+            <button onclick="appendToDisplay('5')">5</button>
+            <button onclick="appendToDisplay('6')">6</button>
+            <button onclick="appendOperator('*')">*</button>
+        </div>
+        <div class="row">
+            <button onclick="appendToDisplay('1')">1</button>
+            <button onclick="appendToDisplay('2')">2</button>
+            <button onclick="appendToDisplay('3')">3</button>
+            <button onclick="appendOperator('-')">-</button>
+        </div>
+        <div class="row">
+            <button onclick="appendToDisplay('0')">0</button>
+            <button onclick="appendToDisplay('.')">.</button>
+            <button id="clear" onclick="clearDisplay()">C</button>
+            <button onclick="appendOperator('+')">+</button>
+        </div>
+        <div class="row">
+            <button class="backspace" onclick="backspace()">⌫</button>
+            <button id="equals" onclick="calculate()">=</button>
+        </div>
+    </div>
+
+    <script>
+    
+const display = document.getElementById('display');
+let resultDisplayed = false;
+
+function appendToDisplay(value) {
+    if (resultDisplayed) {
+        clearDisplay();
+        resultDisplayed = false;
+    }
+    display.value += value;
+}
+
+function clearDisplay() {
+    display.value = '';
+    resultDisplayed = false;
+}
+
+function backspace() {
+    if (resultDisplayed) {
+        clearDisplay();
+        resultDisplayed = false;
+    } else {
+        const currentValue = display.value;
+        display.value = currentValue.slice(0, -1);
+    }
+}
+
+function appendOperator(operator) {
+    if (resultDisplayed) {
+        resultDisplayed = false;
+    }
+    const currentValue = display.value;
+    if (currentValue !== '') {
+        display.value += operator;
+    }
+}
+
+function calculate() {
+    try {
+        const expression = display.value;
+        const result = eval(expression);
+        display.value = result;
+        resultDisplayed = true;
+    } catch (error) {
+        display.value = 'Error';
+        resultDisplayed = true;
+    }
+}
+
+
+    </script>
+</body>
+</html>
